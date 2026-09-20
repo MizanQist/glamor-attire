@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Glamor Attire</title>
   <meta name="description" content="Glamor Attire: flowing kaftans, sculpted-sleeve abayas and fluid pleated sets.">
   <meta name="theme-color" content="#ffffff">
@@ -23,7 +23,7 @@
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5h18M3 16.5h18"/></svg>
         <span class="header-label">Menu</span>
       </button>
-      <button class="header-btn" type="button" data-open="search" aria-label="Search">
+      <button class="header-btn header-search" type="button" data-open="search" aria-label="Search">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
         <span class="header-label">Search</span>
       </button>
@@ -41,19 +41,29 @@
   </header>
 
   <main id="main">
-    <section class="hero" id="hero" aria-label="The Statement Sleeve">
+    <section class="hero" id="hero" aria-label="Kaftans and bubus, in motion">
       <div class="hero-media">
-        <img src="assets/img/ruffle-burgundy-1-1170.jpg" alt="Model in a burgundy abaya with tiered ruffle sleeves, holding the skirt out wide" fetchpriority="high">
-        <img src="assets/img/bell-burgundy-1-1170.jpg" alt="Model in profile, a burgundy bell-sleeve abaya sweeping behind her" loading="lazy">
+        <video class="hero-clip is-active" muted playsinline preload="none" poster="assets/video/hero-panel.jpg"
+               disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1">
+          <source src="assets/video/hero-panel.mp4" type="video/mp4">
+        </video>
+        <video class="hero-clip" muted playsinline preload="none" poster="assets/video/hero-bubu.jpg"
+               disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1">
+          <source src="assets/video/hero-bubu.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="hero-caption">
-        <p class="eyebrow">New Collection</p>
-        <h1>The Statement Sleeve</h1>
+        <p class="eyebrow">Kaftans &amp; Bubus</p>
+        <h1>Colour, in Motion</h1>
         <p class="hero-links">
-          <button class="link" type="button" data-filter="abayas">Discover the Abayas</button>
+          <button class="link" type="button" data-filter="kaftans">Discover the Kaftans</button>
           <button class="link" type="button" data-filter="all">View the Collection</button>
         </p>
       </div>
+      <button class="hero-toggle" id="heroToggle" type="button" data-hero-toggle aria-label="Pause video">
+        <svg class="icon icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>
+        <svg class="icon icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13l10-6.5-10-6.5Z"/></svg>
+      </button>
     </section>
 
     <section class="section" aria-labelledby="newInTitle">
@@ -69,6 +79,19 @@
         </div>
       </div>
       <div class="rail" id="newInRail" tabindex="0" aria-label="New pieces"></div>
+    </section>
+
+    <section class="editorial" aria-labelledby="sleeveTitle">
+      <div class="editorial-media editorial-media-2">
+        <img src="assets/img/ruffle-burgundy-1-1170.jpg" alt="Model in a burgundy abaya with tiered ruffle sleeves, holding the skirt out wide" loading="lazy">
+        <img src="assets/img/bell-burgundy-1-1170.jpg" alt="Model in profile, a burgundy bell-sleeve abaya sweeping behind her" loading="lazy">
+      </div>
+      <div class="editorial-caption reveal">
+        <p class="eyebrow">Abayas</p>
+        <h2 id="sleeveTitle">The Statement Sleeve</h2>
+        <p>Floor-length abayas in deep burgundy and black, with sheer sleeves sculpted into ruffles and bells.</p>
+        <button class="link" type="button" data-filter="abayas">Discover the Abayas</button>
+      </div>
     </section>
 
     <section class="editorial" aria-labelledby="bloomTitle">
@@ -175,25 +198,26 @@
     </div>
   </footer>
 
-  <dialog class="drawer drawer-start" id="menu" aria-label="Menu">
+  <dialog class="drawer drawer-start" id="menu" aria-label="Menu" tabindex="-1">
     <button class="close-btn" type="button" data-close>
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
       <span>Close</span>
     </button>
     <ul class="menu-primary" id="menuShop"></ul>
     <ul class="menu-secondary">
+      <li><button type="button" data-open="search">Search</button></li>
       <li><a href="#house" data-close>The House</a></li>
       <li><a href="#services" data-close>Services</a></li>
       <li><a href="#contact" data-close>Contact</a></li>
     </ul>
   </dialog>
 
-  <dialog class="sheet" id="search" aria-label="Search">
+  <dialog class="sheet" id="search" aria-label="Search" tabindex="-1">
     <div class="sheet-bar">
       <label class="search-field">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
         <span class="visually-hidden">Search the collection</span>
-        <input id="searchInput" type="search" placeholder="Search kaftans, abayas, colours" autocomplete="off">
+        <input id="searchInput" type="search" autofocus placeholder="Search kaftans, abayas, colours" autocomplete="off">
       </label>
       <button class="close-btn" type="button" data-close>
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
@@ -204,7 +228,7 @@
     <div class="grid grid-compact" id="searchResults"></div>
   </dialog>
 
-  <dialog class="drawer drawer-end" id="bag" aria-labelledby="bagTitle">
+  <dialog class="drawer drawer-end" id="bag" aria-labelledby="bagTitle" tabindex="-1">
     <button class="close-btn" type="button" data-close>
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
       <span>Close</span>
@@ -214,7 +238,7 @@
     <div class="bag-foot" id="bagFoot"></div>
   </dialog>
 
-  <dialog class="product" id="product" aria-labelledby="productName">
+  <dialog class="product" id="product" aria-labelledby="productName" tabindex="-1">
     <button class="close-btn product-close" type="button" data-close>
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
       <span>Close</span>

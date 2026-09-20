@@ -24,6 +24,10 @@ const FILTERS = [
 // price: a number (e.g. 85000) shows as currency; null shows "Price on request".
 // images: how many photos exist for the piece, named <id>-1, <id>-2 ... in assets/img.
 const PRODUCTS = [
+  { id: 'rose-panel', name: 'Panel Kaftan', colour: 'Rose & Magenta', category: 'kaftans', isNew: true, price: null, images: 1,
+    description: 'A kaftan with a solid rose front panel set against a hand-drawn magenta print, with a headscarf to match.' },
+  { id: 'embroidered-bubu', name: 'Embroidered Bubu', colour: 'Lemon & Violet', category: 'kaftans', isNew: true, price: null, images: 1,
+    description: 'A lemon bubu with a bib of gold floral embroidery, falling into violet hand-dyed sleeves and hem.' },
   { id: 'ruffle-burgundy', name: 'Ruffle Sleeve Abaya', colour: 'Burgundy', category: 'abayas', isNew: true, price: null, images: 3,
     description: 'A floor-length abaya with a clean V neckline and sheer sleeves built from tiers of sculpted ruffles.' },
   { id: 'purple-bloom', name: 'Bloom Kaftan', colour: 'Violet', category: 'kaftans', isNew: true, price: null, images: 3,
@@ -44,8 +48,6 @@ const PRODUCTS = [
     description: 'The ruffle sleeve abaya in black, shown with the Glamor Attire signature scarf.' },
   { id: 'palm-leaf', name: 'Palm Leaf Gown', colour: 'Rose & Wine', category: 'sets', isNew: false, price: null, images: 4,
     description: 'A fitted, long-sleeved gown with a square neckline in a rose and wine palm print. Shown with and without a lace veil.' },
-  { id: 'rose-panel', name: 'Panel Kaftan', colour: 'Rose & Magenta', category: 'kaftans', isNew: false, price: null, images: 1,
-    description: 'A kaftan with a solid rose front panel set against a hand-drawn magenta print.' },
   { id: 'laceup-azure', name: 'Lace-Up Kaftan', colour: 'Azure & Gold', category: 'kaftans', isNew: false, price: null, images: 1,
     description: 'A satin kaftan with a lace-up neckline and a ruched waist, in azure and gold.' },
   { id: 'laceup-leopard', name: 'Lace-Up Kaftan', colour: 'Silver Leopard', category: 'kaftans', isNew: false, price: null, images: 1,
@@ -134,7 +136,10 @@ function closeDialogs() {
 
 function openDialog(id) {
   closeDialogs();
-  $(id).showModal();
+  const dialog = $(id);
+  dialog.showModal();
+  // Focus the panel itself (screen readers announce its name) unless it asks for a field, like search.
+  if (!dialog.querySelector('[autofocus]')) dialog.focus();
 }
 
 function closeOnBackdrop(event) {
@@ -161,7 +166,9 @@ function openProduct(id) {
       <p class="muted">${escapeHtml(product.colour)}</p>
       <p class="product-price">${formatPrice(product)}</p>
       <p>${escapeHtml(product.description)}</p>
-      <button class="btn btn-primary" type="button" data-add="${product.id}">${bag.includes(product.id) ? 'View in Bag' : 'Add to Bag'}</button>
+      <div class="product-actions">
+        <button class="btn btn-primary" type="button" data-add="${product.id}">${bag.includes(product.id) ? 'View in Bag' : 'Add to Bag'}</button>
+      </div>
       <a class="btn" href="${enquiry}" target="_blank" rel="noopener">Enquire on WhatsApp</a>
       <details>
         <summary>Sizing &amp; Fit</summary>
@@ -268,9 +275,53 @@ function renderStaticLists() {
     (instagramUrl ? `<li><a href="${instagramUrl}" target="_blank" rel="noopener">Instagram</a></li>` : '');
 }
 
+/* ---------- Hero reel ----------
+   Phones show one clip at a time and alternate; from 600px both play side by side.
+   Nothing downloads until play() is called, so visitors on Data Saver or with reduced
+   motion switched on get the still frame and a Play button instead. */
+
+const clips = [...document.querySelectorAll('.hero-clip')];
+const sideBySide = matchMedia('(min-width: 37.5rem)');
+const prefersStill = matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData === true;
+
+let isHeroPaused = prefersStill;
+let isHeroVisible = true;
+
+function renderHeroToggle() {
+  $('heroToggle').dataset.state = isHeroPaused ? 'paused' : 'playing';
+  $('heroToggle').setAttribute('aria-label', isHeroPaused ? 'Play video' : 'Pause video');
+}
+
+function syncHero() {
+  clips.forEach((clip) => {
+    clip.loop = sideBySide.matches;
+    const shouldPlay = !isHeroPaused && isHeroVisible && (sideBySide.matches || clip.classList.contains('is-active'));
+    if (!shouldPlay) { clip.pause(); return; }
+    clip.play().catch((error) => {
+      if (error.name === 'AbortError') return; // superseded by a newer play/pause, not a failure
+      // Autoplay refused (iOS Low Power Mode, browser policy): keep the still frame, offer Play.
+      if (error.name !== 'NotAllowedError') console.warn('Hero video could not play.', error);
+      isHeroPaused = true;
+      renderHeroToggle();
+    });
+  });
+  renderHeroToggle();
+}
+
+function showNextClip(finished) {
+  if (sideBySide.matches) return; // side by side, each clip simply loops
+  const next = clips[(clips.indexOf(finished) + 1) % clips.length];
+  clips.forEach((clip) => clip.classList.toggle('is-active', clip === next));
+  next.currentTime = 0;
+  syncHero();
+}
+
+clips.forEach((clip) => clip.addEventListener('ended', () => showNextClip(clip)));
+sideBySide.addEventListener('change', syncHero); // e.g. a foldable being opened or closed
+
 /* ---------- Wiring ---------- */
 
-const ACTIONS = '[data-open],[data-close],[data-product],[data-filter],[data-add],[data-remove],[data-rail]';
+const ACTIONS = '[data-open],[data-close],[data-product],[data-filter],[data-add],[data-remove],[data-rail],[data-hero-toggle]';
 
 document.addEventListener('click', (event) => {
   const target = event.target.closest(ACTIONS);
@@ -285,6 +336,7 @@ document.addEventListener('click', (event) => {
     ($('bagList').querySelector('[data-remove]') || $('bag').querySelector('[data-close]')).focus();
   }
   else if (rail) $('newInRail').scrollBy({ left: Number(rail) * $('newInRail').clientWidth });
+  else if ('heroToggle' in target.dataset) { isHeroPaused = !isHeroPaused; syncHero(); }
   else target.closest('dialog').close(); // data-close; links carry on to their anchor
 });
 
@@ -292,9 +344,13 @@ document.querySelectorAll('dialog').forEach((dialog) => dialog.addEventListener(
 $('searchInput').addEventListener('input', renderSearch);
 $('searchInput').addEventListener('search', renderSearch); // Escape or the clear button empties the box
 
-// Header is see-through over the hero and solid everywhere else.
+// Past the hero: the header turns solid and the films stop playing (battery, data).
 new IntersectionObserver(
-  ([entry]) => $('header').classList.toggle('is-solid', !entry.isIntersecting),
+  ([entry]) => {
+    $('header').classList.toggle('is-solid', !entry.isIntersecting);
+    isHeroVisible = entry.isIntersecting;
+    syncHero();
+  },
   { rootMargin: `-${$('header').offsetHeight}px 0px 0px 0px` },
 ).observe($('hero'));
 
