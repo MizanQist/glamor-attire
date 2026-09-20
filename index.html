@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glamor Attire</title>
+  <meta name="description" content="Glamor Attire: flowing kaftans, sculpted-sleeve abayas and fluid pleated sets.">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Draft: kept out of search engines. Remove this line at launch. -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/logo-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="header">
+    <div class="header-side">
+      <button class="header-btn" type="button" data-open="menu" aria-label="Menu">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5h18M3 16.5h18"/></svg>
+        <span class="header-label">Menu</span>
+      </button>
+      <button class="header-btn" type="button" data-open="search" aria-label="Search">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+        <span class="header-label">Search</span>
+      </button>
+    </div>
+    <a class="logo" href="#top" aria-label="Glamor Attire, back to top">
+      <img src="assets/img/logo-wordmark.png" alt="Glamor Attire" width="666" height="80">
+    </a>
+    <div class="header-side header-side-end">
+      <a class="header-btn header-contact" href="#contact">Contact</a>
+      <button class="header-btn" type="button" data-open="bag" aria-label="Open bag">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14l1 12H4l1-12Z"/><path d="M8.5 8.5V7a3.5 3.5 0 0 1 7 0v1.5"/></svg>
+        <span class="bag-count" id="bagCount" hidden></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero" aria-label="The Statement Sleeve">
+      <div class="hero-media">
+        <img src="assets/img/ruffle-burgundy-1-1170.jpg" alt="Model in a burgundy abaya with tiered ruffle sleeves, holding the skirt out wide" fetchpriority="high">
+        <img src="assets/img/bell-burgundy-1-1170.jpg" alt="Model in profile, a burgundy bell-sleeve abaya sweeping behind her" loading="lazy">
+      </div>
+      <div class="hero-caption">
+        <p class="eyebrow">New Collection</p>
+        <h1>The Statement Sleeve</h1>
+        <p class="hero-links">
+          <button class="link" type="button" data-filter="abayas">Discover the Abayas</button>
+          <button class="link" type="button" data-filter="all">View the Collection</button>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="newInTitle">
+      <div class="section-head">
+        <h2 id="newInTitle">New In</h2>
+        <div class="rail-controls">
+          <button class="round-btn" type="button" data-rail="-1" aria-label="Previous pieces">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>
+          </button>
+          <button class="round-btn" type="button" data-rail="1" aria-label="Next pieces">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="rail" id="newInRail" tabindex="0" aria-label="New pieces"></div>
+    </section>
+
+    <section class="editorial" aria-labelledby="bloomTitle">
+      <div class="editorial-media editorial-media-2">
+        <img src="assets/img/purple-bloom-1-1170.jpg" alt="Model in a purple floral kaftan with a fishtail hem and matching headscarf" loading="lazy">
+        <img src="assets/img/rose-bloom-1-1170.jpg" alt="Model in a red floral kaftan caught mid-movement" loading="lazy">
+      </div>
+      <div class="editorial-caption reveal">
+        <p class="eyebrow">Kaftans &amp; Bubus</p>
+        <h2 id="bloomTitle">In Full Bloom</h2>
+        <p>Oversized florals on cloth that moves, styled with a headscarf cut from the same print.</p>
+        <button class="link" type="button" data-filter="kaftans">Discover the Kaftans</button>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="categoriesTitle">
+      <h2 class="section-title-centre" id="categoriesTitle">Explore the Collection</h2>
+      <div class="categories" id="categories"></div>
+    </section>
+
+    <section class="editorial" aria-labelledby="pleatsTitle">
+      <div class="editorial-media editorial-media-3">
+        <img src="assets/img/pleated-dusk-1-1170.jpg" alt="Model in a blue and blush pleated two-piece with wide cape sleeves" loading="lazy">
+        <img src="assets/img/pleated-mocha-2-1170.jpg" alt="Back view of a mocha pleated cape top, arms extended" loading="lazy">
+        <img src="assets/img/pleated-mocha-1-1170.jpg" alt="Model in a mocha and black pleated two-piece" loading="lazy">
+      </div>
+      <div class="editorial-caption reveal">
+        <p class="eyebrow">Sets &amp; Gowns</p>
+        <h2 id="pleatsTitle">Pleats in Motion</h2>
+        <p>Fine pleating from shoulder to hem: a cape-sleeve top over a fluid wide-leg trouser.</p>
+        <button class="link" type="button" data-filter="sets">Discover the Sets</button>
+      </div>
+    </section>
+
+    <section class="section" id="collection" aria-labelledby="collectionTitle">
+      <div class="collection-head">
+        <h2 id="collectionTitle">The Collection</h2>
+        <p class="muted" id="collectionCount" aria-live="polite"></p>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter the collection"></div>
+      <div class="grid" id="collectionGrid"></div>
+    </section>
+
+    <section class="house" id="house" aria-labelledby="houseTitle">
+      <img class="house-mark" src="assets/img/logo-mark.png" alt="" width="254" height="354" loading="lazy">
+      <h2 id="houseTitle">The House</h2>
+      <p>Glamor Attire dresses women for the moments that matter. Kaftans that catch the air, sleeves with presence, pleats that move as you do. Every piece is chosen to feel as considered as it looks, from the first fitting to the last photograph of the evening.</p>
+    </section>
+
+    <section class="section" id="services" aria-labelledby="servicesTitle">
+      <h2 class="section-title-centre" id="servicesTitle">Glamor Attire Services</h2>
+      <div class="services">
+        <article>
+          <h3>Personal Ordering</h3>
+          <p>Add the pieces you love to your bag and send us your selection. We confirm availability and payment with you directly.</p>
+        </article>
+        <article>
+          <h3>Sizing &amp; Fit</h3>
+          <p>Share your measurements when you order and we will advise on the best fit for each silhouette.</p>
+        </article>
+        <article>
+          <h3>Delivery</h3>
+          <p>Delivery options and timelines are confirmed with every order.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contactTitle">
+      <h2 id="contactTitle">At Your Service</h2>
+      <p>For orders, sizing advice and styling, speak with us directly.</p>
+      <div class="contact-actions" id="contactActions"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-cols">
+      <nav aria-label="Shop">
+        <h2>Shop</h2>
+        <ul id="footerShop"></ul>
+      </nav>
+      <nav aria-label="Client services">
+        <h2>Client Services</h2>
+        <ul>
+          <li><a href="#services">Personal Ordering</a></li>
+          <li><a href="#services">Sizing &amp; Fit</a></li>
+          <li><a href="#services">Delivery</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="The house">
+        <h2>The House</h2>
+        <ul>
+          <li><a href="#house">About Glamor Attire</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Connect">
+        <h2>Connect</h2>
+        <ul id="footerConnect"></ul>
+      </nav>
+    </div>
+    <div class="footer-base">
+      <img src="assets/img/logo-wordmark.png" alt="Glamor Attire" width="666" height="80" loading="lazy">
+      <p class="muted">&copy; 2026 Glamor Attire. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <dialog class="drawer drawer-start" id="menu" aria-label="Menu">
+    <button class="close-btn" type="button" data-close>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+      <span>Close</span>
+    </button>
+    <ul class="menu-primary" id="menuShop"></ul>
+    <ul class="menu-secondary">
+      <li><a href="#house" data-close>The House</a></li>
+      <li><a href="#services" data-close>Services</a></li>
+      <li><a href="#contact" data-close>Contact</a></li>
+    </ul>
+  </dialog>
+
+  <dialog class="sheet" id="search" aria-label="Search">
+    <div class="sheet-bar">
+      <label class="search-field">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+        <span class="visually-hidden">Search the collection</span>
+        <input id="searchInput" type="search" placeholder="Search kaftans, abayas, colours" autocomplete="off">
+      </label>
+      <button class="close-btn" type="button" data-close>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+        <span>Close</span>
+      </button>
+    </div>
+    <p class="muted sheet-status" id="searchStatus" aria-live="polite"></p>
+    <div class="grid grid-compact" id="searchResults"></div>
+  </dialog>
+
+  <dialog class="drawer drawer-end" id="bag" aria-labelledby="bagTitle">
+    <button class="close-btn" type="button" data-close>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+      <span>Close</span>
+    </button>
+    <h2 id="bagTitle">Your Bag</h2>
+    <ul class="bag-list" id="bagList"></ul>
+    <div class="bag-foot" id="bagFoot"></div>
+  </dialog>
+
+  <dialog class="product" id="product" aria-labelledby="productName">
+    <button class="close-btn product-close" type="button" data-close>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg>
+      <span>Close</span>
+    </button>
+    <div class="product-body" id="productBody"></div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
