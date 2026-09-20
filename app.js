@@ -159,7 +159,7 @@ function openProduct(id) {
     photo(`${product.id}-${index + 1}`, `${describe(product)}, view ${index + 1}`, PRODUCT_SIZES)).join('');
   const enquiry = whatsappUrl(`Hello ${BRAND.name}, I would like to enquire about: ${describe(product)}`);
   $('productBody').innerHTML = `
-    <div class="product-gallery">${gallery}</div>
+    <div class="product-gallery" tabindex="0" role="group" aria-label="Photographs of ${escapeHtml(describe(product))}">${gallery}</div>
     <div class="product-info">
       <p class="eyebrow">${escapeHtml(categoryLabel(product))}${product.isNew ? ' · New' : ''}</p>
       <h2 id="productName">${escapeHtml(product.name)}</h2>
@@ -301,6 +301,7 @@ function syncHero() {
       if (error.name === 'AbortError') return; // superseded by a newer play/pause, not a failure
       // Autoplay refused (iOS Low Power Mode, browser policy): keep the still frame, offer Play.
       if (error.name !== 'NotAllowedError') console.warn('Hero video could not play.', error);
+      if (!clips.every((each) => each.paused)) return; // the other clip is still running: leave it be
       isHeroPaused = true;
       renderHeroToggle();
     });
@@ -318,6 +319,9 @@ function showNextClip(finished) {
 
 clips.forEach((clip) => clip.addEventListener('ended', () => showNextClip(clip)));
 sideBySide.addEventListener('change', syncHero); // e.g. a foldable being opened or closed
+// iOS pauses video whenever Safari is backgrounded, as it is by the WhatsApp hand-off. Resume on return.
+document.addEventListener('visibilitychange', () => { if (!document.hidden) syncHero(); });
+window.addEventListener('pageshow', (event) => { if (event.persisted) syncHero(); });
 
 /* ---------- Wiring ---------- */
 
